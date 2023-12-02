@@ -1,0 +1,18 @@
+ disp('-----正向云发生器程序启动-----');
+Ex = input('输入期望值Ex:');
+En = input('输入熵值En:');
+He = input('输入超熵值He:');
+n = input('输入需要产生的云滴数n:');
+X = zeros(1,n);%产生一个1*n型正态随机数矩阵，其元素都为0
+Y = zeros(1,n);
+s=rng(0);
+X = normrnd(En,He,1,n);%产生一个1*n型正态随机数矩阵，En为期望，He为方差
+for i = 1:n
+    Enn = X(1,i);
+    X(1,i) = normrnd(Ex,Enn,1);%产生一个正态随机数，Ex为期望，Enn为方差（1*1型）
+    Y(1,i) = exp(-(X(1,i)-Ex)^2/(2*Enn^2));
+end
+MeanX = mean(X(1,Y(1,i)==max(Y(1,i))));%根据最大隶属度原则求权重均值
+fprintf('权重均值为:%8f\n',MeanX);
+scatter(X(1,:),Y(1,:));
+disp('-----正向云发生器程序结束-----');
