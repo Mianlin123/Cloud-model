@@ -1,0 +1,20 @@
+disp('-----X型云发生器程序启动-----');
+Ex = input('输入期望值Ex:');
+En = input('输入熵值En:');
+He = input('输入超熵值He:');
+n = input('输入需要产生的云滴数n:');
+X = zeros(1,n);%产生一个1*n型矩阵，其元素都为0
+Y = zeros(1,n);
+s=rng(0);
+X = normrnd(En,He,1,n);%产生一个1*n型正态随机数矩阵，En为期望，He为方差
+Xi = input('输入随机数X(1,i),即实际值:');%手动输入固定随机数X
+for i = 1:n
+    i;
+    Enn = X(1,i);
+    X(1,i) = Xi;
+    Y(1,i) = exp(-(X(1,i)-Ex)^2/(2*Enn^2));
+    MeanY = mean(Y);%求所有云滴在某个固定随机数X下的平均隶属度。
+end
+fprintf('隶属度均值为:%8f\n',MeanY);
+plot(X(1,:),Y(1,:));
+disp('-----X型云发生器程序结束-----');
